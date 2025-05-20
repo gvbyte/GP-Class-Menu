@@ -4,7 +4,7 @@ class Elements {
     # Main header for menus
     static [void] Header() {
         Clear-Host;
-        Write-Host -ForegroundColor Green (Get-Content ./etc/header.txt -Raw)
+        Write-Host -ForegroundColor Green (Get-Content './etc/Config/header.txt' -Raw)
     }
     static [void] Spacer(){Write-Host -ForegroundColor Green "`n|____________________________________________________________________________|";}
     static [void] SpacerHeader(){Write-Host -ForegroundColor Green "`n|____________________________________________________________________________|";}
