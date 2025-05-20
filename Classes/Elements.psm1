@@ -1,6 +1,6 @@
 class Elements {
-    static [int]$MenuWidth = ((Get-Content '.\config.json' -Raw | ConvertFrom-Json).Width);
-    static [string]$UserName = ((Get-Content '.\config.json' -Raw | ConvertFrom-Json).Name);
+    static [int]$MenuWidth = ((Get-Content -Path "$(Get-location)\etc\Config\config.json" -Raw | ConvertFrom-Json).Width);
+    static [string]$UserName = ((Get-Content '.\etc\Config\config.json' -Raw | ConvertFrom-Json).Name);
     # Main header for menus
     static [void] Header() {
         Clear-Host;

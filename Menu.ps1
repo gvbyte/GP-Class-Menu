@@ -4,12 +4,12 @@ using module '.\Classes\Elements.psm1'
 using module '.\Classes\Setup.psm1'
 
 class Menu {
-    static [string]$Name = ((Get-Content '.\config.json' -Raw | ConvertFrom-Json).Menu);
+    static [string]$Name = ((Get-Content '.\etc\Config\config.json' -Raw | ConvertFrom-Json).Menu);
     # Initializes Menu
     static [void] Init(){
         [Setup]::StartArchive();
         [Setup]::TerminalSetup();
-        [MenuInit]::new().OSType("main", "Menus");
+        [MenuInit]::new().OSType("menu-main", "Menus");
     }
     # Option -Help ==> Displays the help menu 
     static [void] Help() {
@@ -76,7 +76,7 @@ class MenuInit {
         Start-Sleep -Seconds 2;
         switch ($osName) {
             "Windows 10 / Server 2016+" {
-                $manager = [MenuManager]::new("main.json", "./menus")
+                $manager = [MenuManager]::new("menu-main.json", "Menus")
                 $manager.ShowMenu()
             }
             "Windows8.1" {
@@ -95,7 +95,7 @@ class MenuInit {
                 Write-Host "Unsupported legacy OS."
             }
             "Unix - PowerShell Core" {
-                $manager = [MenuManager]::new("main.json", "./menus")
+                $manager = [MenuManager]::new("menu-main.json", "Menus")
                 $manager.ShowMenu()
             }
             default {
@@ -114,7 +114,7 @@ class MenuManager {
         $this.Pages = @{}
         $this.History = [System.Collections.Stack]::new()
         $this.MenuFolder = $menuFolder
-        $this.MenuFolder = ".\etc\$($this.MenuFolder)"
+        $this.MenuFolder = "$(Get-Location)\etc\Config\$($this.MenuFolder)"
 
         # Auto-discover all menus
         $AllMenus = Get-ChildItem -Path $this.MenuFolder -Filter *.json
