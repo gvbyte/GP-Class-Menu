@@ -55,6 +55,7 @@ class Menu {
 
     }
 }
+
 class MenuInit {
     [string] GetOSName() {
         $osVersion = [System.Environment]::OSVersion
@@ -104,6 +105,7 @@ class MenuInit {
         }
     }
 }
+
 class MenuManager {
     [hashtable]$Pages
     [System.Collections.Stack]$History

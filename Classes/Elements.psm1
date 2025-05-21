@@ -1,14 +1,20 @@
 class Elements {
+    
     static [int]$MenuWidth = ((Get-Content -Path "$(Get-location)\etc\Config\config.json" -Raw | ConvertFrom-Json).Width);
+    
     static [string]$UserName = ((Get-Content '.\etc\Config\config.json' -Raw | ConvertFrom-Json).Name);
     # Main header for menus
     static [void] Header() {
         Clear-Host;
         Write-Host -ForegroundColor Green (Get-Content './etc/Config/header.txt' -Raw)
     }
+    
     static [void] Spacer(){Write-Host -ForegroundColor Green "`n|____________________________________________________________________________|";}
+    
     static [void] SpacerHeader(){Write-Host -ForegroundColor Green "`n|____________________________________________________________________________|";}
+    
     static [void] WelcomeHeader(){$Day = (Get-Date).Day;[Elements]::OptionCenter("Happy $((Get-Date).DayOfWeek)! $([Elements]::UserName)");[Elements]::Spacer();}
+    
     static [void] OptionFormat([string]$option, [string]$align, [int]$width) {
         $left_pad = 0;
         $right_pad = 0;
@@ -42,13 +48,17 @@ class Elements {
         }
         Invoke-Command -ErrorAction Stop -ArgumentList $Color -ScriptBlock $Scriptblock;
     }
+    
     static [void] OptionLeft([string]$option)   {[Elements]::OptionFormat($option, 'Left', [Elements]::MenuWidth)}
+    
     static [void] OptionCenter([string]$option) {[Elements]::OptionFormat($option, 'Center', [Elements]::MenuWidth)}
+    
     static [void] OptionRight([string]$option)  {[Elements]::OptionFormat($option, 'Right', [Elements]::MenuWidth)}
     # Passes array to display in options
     static [void] OptionWindow([array]$list){
         $list | ForEach-Object {[Elements]::Spacer();[Elements]::OptionCenter("$($_)");[Elements]::Spacer();}
     }
+
     # Passes array to display in numbered options
     [void] NumberedWindow([array]$list) {
     Write-Host -ForegroundColor Yellow "`r|            [Select and option and press ENTER]           |
