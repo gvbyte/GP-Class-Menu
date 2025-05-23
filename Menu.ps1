@@ -3,6 +3,7 @@ using module '.\Classes\MenuPage.psm1'
 using module '.\Classes\Elements.psm1'
 using module '.\Classes\Setup.psm1'
 
+
 class Menu {
     static [string]$Name = ((Get-Content '.\etc\Config\config.json' -Raw | ConvertFrom-Json).Menu);
     # Initializes Menu
@@ -35,24 +36,30 @@ class Menu {
        
     }
     # Clear -Clear ===> 
-    static [void] Clear([string]$export){
+    static [void] Clear([string]$Export){
         try{
-            $total_logs =  Get-ChildItem -Path "./var/$($export)/*" -Filter "*.$($export)" -Recurse | Where-Object{$_.Name -ne "README.md"}; 
-            $total_logs_count = $total_logs.Count; 
-            $total_logs | Remove-Item -Force; [Elements]::OptionLeft("[!] Successfully cleared $($total_logs_count) $($export)");
-            Read-Host;
+            $TotalLogs =  Get-ChildItem -Path "./var/$($Export)/*" -Filter "*.$($Export)" -Recurse | Where-Object{$_.Name -ne "README.md"}; 
+            $TotalLogCount = $TotalLogs.Count; 
+            $TotalLogs | Remove-Item -Force; [Elements]::OptionCenter("[!] Successfully cleared $($TotalLogCount) $($Export)");
+            [Elements]::Spacer();
+            
+            
         }
         catch{
-            [Elements]::OptionLeft("[!] Failed to clear /var/log");Read-Host;
+            [Elements]::OptionLeft("[!] Failed to clear /var/$($Export)");Read-Host -Prompt "Press Enter to Continue";
         }
     }
     # Clear -Clear ===> 
     static [void] ClearAll() {
+        Clear-Host;
+        [Elements]::Header();
+        [Elements]::WelcomeHeader();
+        [Elements]::SpacerHeader();
         [Menu]::Clear('csv');
         [Menu]::Clear('html');
         [Menu]::Clear('log');
         [Menu]::Clear('xlsx');
-
+        Read-Host -Prompt "Press Enter to Continue";
     }
 }
 
@@ -74,7 +81,7 @@ class MenuInit {
     [void] OSType([string]$menu, [string]$folder) {
         $osName = $this.GetOSName();
         Write-LogInfo -module "SETUP" -message "[!] Detected OS: $osName";
-        Start-Sleep -Seconds 2;
+        Start-Sleep -Seconds $((Get-Content '.\etc\Config\config.json' | ConvertFrom-Json).Delay);
         switch ($osName) {
             "Windows 10 / Server 2016+" {
                 $manager = [MenuManager]::new("menu-main.json", "Menus")

@@ -37,7 +37,7 @@ class Setup {
             }
             catch {
                 [string]$ErrorMessage = ($Error).ToString();
-                $ErrorMessage = $ErrorMessage.Substring(0, 30);
+                $ErrorMessage = $ErrorMessage.Substring(0, 60);
                 Write-LogError -module "SETUP" -message "Terminal Color Error:  $($ErrorMessage)";
             } 
         }
