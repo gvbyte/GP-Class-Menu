@@ -90,7 +90,7 @@ class Elements {
     static [void] Quit(){
         try {
             Stop-Transcript;
-            Trace-Info -module "Menu" -message "---> LOG STOPPED <---";
+            Write-LogInfo -module "Menu" -message "---> LOG STOPPED <---";
             [Elements]::Text(1, "Logs have been archived, path: .\var\log\");
             Exit;
         }

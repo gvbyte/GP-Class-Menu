@@ -26,10 +26,10 @@ class Menu {
             $Dirs = (Get-ChildItem -Path '.\var\log\Log*.log')[-1];
             Write-Host $(Get-Content -Raw -Path ".\var\log\$($Dirs.Name)");
             Write-Host -ForegroundColor Green $(Read-Host "[!] Press ENTER to continue");
-            Trace-Info -module "Function" -message "Show-Log";
+            Write-LogInfo -module "Function" -message "Show-Log";
         }
         catch {
-            Trace-Error -module "Function" -message "Show-Log | Error: $(($Error)[0])";
+            Write-LogError -module "Function" -message "Show-Log | Error: $(($Error)[0])";
         }
 
        
@@ -73,7 +73,7 @@ class MenuInit {
 
     [void] OSType([string]$menu, [string]$folder) {
         $osName = $this.GetOSName();
-        Trace-Info -module "SETUP" -message "[!] Detected OS: $osName";
+        Write-LogInfo -module "SETUP" -message "[!] Detected OS: $osName";
         Start-Sleep -Seconds 2;
         switch ($osName) {
             "Windows 10 / Server 2016+" {

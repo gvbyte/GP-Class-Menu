@@ -6,7 +6,7 @@ class Setup {
         $archive_name = [Setup]::ArchiveName;
         try {
             Start-Transcript -Path ".\var\log\$($archive_name).log" -Append -Force;
-            Trace-Info -module "SETUP" -message "Initiated PS Transcript: $($archive_name).log ";
+            Write-LogInfo -module "SETUP" -message "Initiated PS Transcript: $($archive_name).log ";
             Start-Sleep -Seconds 1
         }
         catch {
@@ -33,12 +33,12 @@ class Setup {
             try {
                 $host.UI.RawUI.ForegroundColor = 'White';
                 $host.UI.RawUI.BackgroundColor = 'Black';
-                Trace-Info -module "SETUP" -message "Configured: Terminal Color ";
+                Write-LogInfo -module "SETUP" -message "Configured: Terminal Color ";
             }
             catch {
                 [string]$ErrorMessage = ($Error).ToString();
                 $ErrorMessage = $ErrorMessage.Substring(0, 30);
-                Trace-Error -module "SETUP" -message "Terminal Color Error:  $($ErrorMessage)";
+                Write-LogError -module "SETUP" -message "Terminal Color Error:  $($ErrorMessage)";
             } 
         }
         Invoke-Command -ErrorAction Stop -ScriptBlock $Scriptblock;
@@ -58,12 +58,12 @@ class Setup {
                 $WindowSize.Width = $PreferredWidth
                 $WindowSize.Height = $PreferredHeight
                 $rawUI.WindowSize = $WindowSize
-                Trace-Info -module "SETUP" -message "Terminal Resized";
+                Write-LogInfo -module "SETUP" -message "Terminal Resized";
             }
             catch {
                 [string]$ErrorMessage = ($Error).ToString();
                 $ErrorMessage = $ErrorMessage.Substring(0, 30);
-                Trace-Error -module "SETUP" -message "Terminal resize config failed: $($ErrorMessage)";
+                Write-LogError -module "SETUP" -message "Terminal resize config failed: $($ErrorMessage)";
             }   
         }
         Invoke-Command -ErrorAction Stop -ArgumentList($PreferredWidth, $PreferredHeight, $PreferredBufferHeight) -ScriptBlock $Scriptblock;
