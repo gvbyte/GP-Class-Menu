@@ -224,7 +224,8 @@ class MenuManager {
                     try {
                         Write-Host "`n[!] Executing: $($selected.Action)" -ForegroundColor Yellow
                         Invoke-Expression $selected.Action
-                        Pause
+                        Read-Host -Prompt "[!] Press ENTER to continue";
+                        # Pause
                     }
                     catch {
                         Write-Error "Failed to run command: $_"
